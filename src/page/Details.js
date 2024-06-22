@@ -7,6 +7,8 @@ import NavBar from '../components/Navbar';
 const Details = () => {
   const { id } = useParams();
   const [imageDetails, setImageDetails] = useState(null);
+  const [error, setError] = useState(false); // State to manage error
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,12 +16,14 @@ const Details = () => {
       try {
         const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
           params: {
-            client_id: "v6nOgRLQzCZkQfjncxUH44mtPr-CRujVF4Ly43W0LKE"
+            client_id: "v6nOgRLQzCZkQfjncxUH44mtPr-CRujVF4Ly43W0LK"
           }
         });
         setImageDetails(response.data);
+        setError(false); // Reset error state if successful
       } catch (error) {
         console.error('Error fetching image details:', error);
+        setError(true); // Set error state to true
       }
     };
   
@@ -36,7 +40,9 @@ const Details = () => {
     <>
       <NavBar handleSearchChange={() => {}} searchQuery="" />
       <Container style={{ marginTop: '20px' }}>
-        {imageDetails ? (
+        {error ? (
+          <Typography>Error fetching image details. Please try again later.</Typography>
+        ) : imageDetails ? (
           <Card>
             <CardMedia
               component="img"

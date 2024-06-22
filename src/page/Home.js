@@ -9,6 +9,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [originalImages, setOriginalImages] = useState([]);
   const [page, setPage] = useState(1);
+  const [error, setError] = useState(null); // State for error handling
   const itemsPerPage = 6;
   
   useEffect(() => {
@@ -27,6 +28,7 @@ const Home = () => {
       setOriginalImages(response.data);
     } catch (error) {
       console.error('Error fetching images:', error);
+      setError('Error fetching images. Please try again later.'); // Set error state
     }
   };
 
@@ -52,37 +54,46 @@ const Home = () => {
     <>
       <NavBar handleSearchChange={handleSearchChange} searchQuery={searchQuery} />
       <Container style={{ marginTop: '20px' }}>
-        <Grid container spacing={2}>
-          {paginatedImages.map(image => (
-            <Grid item xs={12} sm={6} md={4} key={image.id}>
-              <Link to={`/details/${image.id}`} style={{ textDecoration: 'none' }}>
-                <Card>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={image.urls.regular}
-                    alt={image.alt_description}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" style={{ fontFamily: 'Inter', fontSize: '16px', fontWeight: '600', lineHeight: '24px' }}>
-                      {image.alt_description}
-                    </Typography>
-                    <Typography style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: '400' }}>
-                      Photo by {image.user.name}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-        <Box display="flex" justifyContent="center" marginTop="20px">
+        {error ? (
+          <Typography variant="h5" style={{ textAlign: 'center', margin: '20px 0', color: 'red' }}>
+            {error}
+          </Typography>
+        ) : (
+          <Grid container spacing={2}>
+            {paginatedImages.map(image => (
+              <Grid item xs={12} sm={6} md={4} key={image.id}>
+                <Link to={`/details/${image.id}`} style={{ textDecoration: 'none' }}>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={image.urls.regular}
+                      alt={image.alt_description}
+                    />
+                    <CardContent>
+                      <Typography variant="h6" style={{ fontFamily: 'Inter', fontSize: '16px', fontWeight: '600', lineHeight: '24px' }}>
+                        {image.alt_description}
+                      </Typography>
+                      <Typography style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: '400' }}>
+                        Photo by {image.user.name}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
+        )}
+        {
+          !error &&  <Box display="flex" justifyContent="center" marginTop="20px">
           <Pagination
             count={Math.ceil(images.length / itemsPerPage)}
             page={page}
             onChange={handlePageChange}
           />
         </Box>
+        }
+       
       </Container>
     </>
   );
