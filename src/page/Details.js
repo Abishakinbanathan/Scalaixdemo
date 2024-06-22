@@ -16,7 +16,7 @@ const Details = () => {
       try {
         const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
           params: {
-            client_id: "v6nOgRLQzCZkQfjncxUH44mtPr-CRujVF4Ly43W0LK"
+            client_id: "v6nOgRLQzCZkQfjncxUH44mtPr-CRujVF4Ly43W0LKE"
           }
         });
         setImageDetails(response.data);
