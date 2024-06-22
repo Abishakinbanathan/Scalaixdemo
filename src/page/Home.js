@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Typography, Box, Grid, Card, CardMedia, CardContent, Pagination, TextField } from '@mui/material';
+import { Container, Typography, Box, Grid, Card, CardMedia, CardContent, Pagination } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/Navbar';
 
