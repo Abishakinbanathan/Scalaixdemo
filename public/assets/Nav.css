@@ -1,0 +1,14 @@
+.bgclr{
+    background-color: black !important;
+}
+
+@font-face {
+    font-family: 'AvenirLTStd-Book';
+    src: url('../AvenirLTStd-Book.otf') format('opentype');
+  }
+a{
+    color: white !important;
+}
+.navspace{
+    margin-right: 10%;
+}
