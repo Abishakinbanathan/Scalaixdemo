@@ -10,21 +10,23 @@ const Details = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchImageDetails();
+    const fetchImageDetails = async () => {
+      try {
+        const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
+          params: {
+            client_id: "v6nOgRLQzCZkQfjncxUH44mtPr-CRujVF4Ly43W0LKE"
+          }
+        });
+        setImageDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching image details:', error);
+      }
+    };
+  
+    fetchImageDetails();  // Invoke the function directly inside useEffect
+  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
-  const fetchImageDetails = async () => {
-    try {
-      const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
-        params: {
-          client_id:"v6nOgRLQzCZkQfjncxUH44mtPr-CRujVF4Ly43W0LKE"
-        }
-      });
-      setImageDetails(response.data);
-    } catch (error) {
-      console.error('Error fetching image details:', error);
-    }
-  };
 
   const handleBackClick = () => {
     navigate('/');
